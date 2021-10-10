@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define BUF_SIZE 1024
 
@@ -26,8 +27,8 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
     int num = 0;
     for (int i= 0; i < num_chars; ++i) {
         char current = in_buf[i];
-        if(is_vowel(current)){
-            out_buf[i] = current;
+        if(!is_vowel(current)){
+            out_buf[num] = current;
             num++;
         }
     }
@@ -41,6 +42,13 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
      * in a buffer of data, copy the non-vowels to the output buffer, and
      * use fwrite to write that out.
      */
+    char* input = (char*) calloc(BUF_SIZE,sizeof(char));
+    char* output= (char*) calloc(BUF_SIZE,sizeof(char));
+    int originalAmount = fread(input, sizeof(char), sizeof(input), inputFile);
+    int nonVowels = copy_non_vowels(originalAmount, input, output);
+    fwrite(output, sizeof(char), nonVowels, outputFile);
+    fclose(inputFile);
+    fclose(outputFile);
 }
 
 int main(int argc, char *argv[]) {
