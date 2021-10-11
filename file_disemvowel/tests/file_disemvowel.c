@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     if (argc == 3){ // file input and output are provided as args
         inputFile = fopen(argv[1], "r");
-        outputFile = fopen(argv[1], "w");
+        outputFile = fopen(argv[2], "w");
     } else if (argc == 2){ // only file input is provided as arg
         inputFile = fopen(argv[1], "r");
     }
@@ -69,9 +69,6 @@ int main(int argc, char *argv[]) {
     // and sets up inputFile and outputFile.
 
     disemvowel(inputFile, outputFile);
-
-    fclose(inputFile);
-    fclose(outputFile);
 
     return 0;
 }
