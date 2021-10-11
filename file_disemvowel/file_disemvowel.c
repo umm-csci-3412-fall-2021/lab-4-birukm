@@ -36,19 +36,20 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
 }
 
 void disemvowel(FILE* inputFile, FILE* outputFile) {
-    /*
-     * Copy all the non-vowels from inputFile to outputFile.
-     * Create input and output buffers, and use fread() to repeatedly read
-     * in a buffer of data, copy the non-vowels to the output buffer, and
-     * use fwrite to write that out.
-     */
-    char* input = (char*) calloc(BUF_SIZE,sizeof(char));
-    char* output= (char*) calloc(BUF_SIZE,sizeof(char));
-    int originalAmount = fread(input, sizeof(char), sizeof(input), inputFile);
-    int nonVowels = copy_non_vowels(originalAmount, input, output);
-    fwrite(output, sizeof(char), nonVowels, outputFile);
-    fclose(inputFile);
-    fclose(outputFile);
+    int numOfBytes = 1;
+    int nonvowels;
+
+    char* input = calloc(BUF_SIZE, sizeof(char));
+    char* output = calloc(BUF_SIZE, sizeof(char));
+
+    while (numOfBytes != 0) {
+        numOfBytes = fread(input, sizeof(char), BUF_SIZE, inputFile);
+        nonvowels = copy_non_vowels(numOfBytes, input, output);
+        fwrite(output, sizeof(char), nonvowels, outputFile);
+    }
+
+    free(input);
+    free(output);
 }
 
 int main(int argc, char *argv[]) {
