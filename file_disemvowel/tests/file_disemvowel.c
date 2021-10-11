@@ -58,10 +58,20 @@ int main(int argc, char *argv[]) {
     FILE *inputFile = stdin;
     FILE *outputFile = stdout;
 
+    if (argc == 3){ // file input and output are provided as args
+        inputFile = fopen(argv[1], "r");
+        outputFile = fopen(argv[1], "w");
+    } else if (argc == 2){ // only file input is provided as arg
+        inputFile = fopen(argv[1], "r");
+    }
+
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.
 
     disemvowel(inputFile, outputFile);
+
+    fclose(inputFile);
+    fclose(outputFile);
 
     return 0;
 }
